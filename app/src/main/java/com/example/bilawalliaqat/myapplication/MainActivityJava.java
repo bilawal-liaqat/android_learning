@@ -25,7 +25,7 @@ public class MainActivityJava extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"Please Login first.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), R.string.login_success_message, Toast.LENGTH_LONG).show();
             }
         });
     }

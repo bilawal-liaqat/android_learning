@@ -2,4 +2,5 @@
     <string name="app_name">New App</string>
     <string name="hello_world">Hello World!</string>
     <string name="login">Login</string>
+    <string name="login_success_message">Login Successfully.</string>
 </resources>
