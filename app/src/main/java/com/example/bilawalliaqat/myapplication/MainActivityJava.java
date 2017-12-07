@@ -17,21 +17,34 @@ import android.widget.Toast;
  */
 
 public class MainActivityJava extends AppCompatActivity {
-
+    WebView webview;
+    String local_url = "file:///android_asset/top_books.htm";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        WebView webview = (WebView) findViewById(R.id.webView);
-        webview.loadUrl("http://www.google.com");
-        webview.getSettings().getJavaScriptEnabled();
+        webview = (WebView) findViewById(R.id.webView);
+        webview.loadUrl(local_url);
+        webview.getSettings().setJavaScriptEnabled(true);
         webview.setWebViewClient(new WebViewClient());
 
 
     }
 
+
+    @Override
+    public void onBackPressed(){
+
+        if (webview.canGoBack()){
+
+            webview.goBack();
+        }
+        else {
+            finish();
+        }
+    }
 
 
 
