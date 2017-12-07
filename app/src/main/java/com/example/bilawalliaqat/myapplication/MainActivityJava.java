@@ -6,6 +6,8 @@ import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.SeekBar;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -22,36 +24,15 @@ public class MainActivityJava extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SeekBar seekbar = (SeekBar) findViewById(R.id.seekBar);
-        final ProgressBar progressbar = (ProgressBar) findViewById(R.id.progressBar);
+        WebView webview = (WebView) findViewById(R.id.webView);
+        webview.loadUrl("http://www.google.com");
+        webview.getSettings().getJavaScriptEnabled();
+        webview.setWebViewClient(new WebViewClient());
 
-        seekbar.setMax(100);
-        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
-                progressbar.setProgress(progress);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
 
     }
 
 
-
-    private void getMessage(){
-
-        Toast.makeText(this, "Hello world", Toast.LENGTH_LONG).show();
-    }
 
 
 
