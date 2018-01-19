@@ -2,22 +2,23 @@ package com.example.bilawalliaqat.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 public class FirstActivity extends AppCompatActivity {
 
+    EditText etFirstName,etLastName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
         Button nextButton  = findViewById(R.id.buttonNext);
+        etFirstName = (EditText) findViewById(R.id.firstName);
+        etLastName = (EditText) findViewById(R.id.lastName);
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -33,13 +34,14 @@ public class FirstActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
 
             if (resultCode == RESULT_OK){
-                String returnString = data.getStringExtra("name");
-                EditText editText = (EditText) findViewById(R.id.textName);
-                   editText.setText(returnString);
+                Person person = intent.getParcelableExtra("person");
+
+                etFirstName.setText(person.firstName);
+               etLastName.setText( person.lastName);
 
             }
             else { // Result code cancelled
@@ -52,9 +54,11 @@ public class FirstActivity extends AppCompatActivity {
 
     public void sendMessage(View view) {
         Intent intent = new Intent(this, SecondActivity.class);
-        EditText editText = (EditText) findViewById(R.id.textName);
-        String message = editText.getText().toString();
-        intent.putExtra("name", message);
+        String firstName = etFirstName.getText().toString();
+        String lastName = etLastName.getText().toString();
+        Person person = new Person(firstName, lastName);
+
+        intent.putExtra("person", person);
        // startActivity(intent);
         startActivityForResult(intent , 1);
 
@@ -62,3 +66,46 @@ public class FirstActivity extends AppCompatActivity {
     }
 
 }
+
+
+
+
+class Person  implements Parcelable{
+
+    String firstName, lastName  ;
+
+
+    Person(String firstName, String lastName ){
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    protected Person(Parcel in) {
+        firstName = in.readString();
+        lastName = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(firstName);
+        dest.writeString(lastName);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Person> CREATOR = new Creator<Person>() {
+        @Override
+        public Person createFromParcel(Parcel in) {
+            return new Person(in);
+        }
+
+        @Override
+        public Person[] newArray(int size) {
+            return new Person[size];
+        }
+    };
+}
+
