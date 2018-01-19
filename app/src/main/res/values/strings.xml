@@ -3,4 +3,27 @@
     <string name="hello_world">Hello World!</string>
     <string name="login">Login</string>
     <string name="login_success_message">Login Successfully.</string>
+    <string name="title_activity_main_menu">Main_menu</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_list">ListActivity</string>
+
+
+    <string-array name="Titles">
+
+
+        <item>Pakistan</item>
+        <item>USA</item>
+        <item>UK</item>
+        <item>Turkey</item>
+        <item>China</item>
+
+    </string-array>
+    <string name="title_activity_first">FirstActivity</string>
+    <string name="title_activity_second">SecondActivity</string>
+
+
 </resources>
