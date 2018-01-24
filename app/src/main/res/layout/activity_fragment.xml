@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.bilawalliaqat.myapplication.FragmentActivity">
+
+
+
+    <Button
+        android:id="@+id/buttonOne"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button One" />
+    <Button
+        android:id="@+id/buttonTwo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button Two" />
+
+    <fragment
+        android:id="@+id/fragmentShow"
+        android:name="com.example.bilawalliaqat.myapplication.FirstFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+</LinearLayout>
