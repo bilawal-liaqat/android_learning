@@ -7,6 +7,7 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 /**
@@ -19,12 +20,34 @@ import android.view.ViewGroup;
  */
 public class FirstFragment extends Fragment {
 
+   // Person person;
+    TextView firstName, lastName;
+
+
+
+
+
+    public void setPerson(View view , Person person){
+        firstName = view.findViewById(R.id.firstName);
+        lastName = view.findViewById(R.id.lastName);
+
+        firstName.setText(person.firstName);
+         lastName.setText( person.lastName);
+     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_first, container, false);
-    }
+
+       View view  = inflater.inflate(R.layout.fragment_first, container, false);
+
+        Person person  = (Person) getArguments().getParcelable("person");
+         setPerson(view , person);
+     return  view;
+
+     }
 
 }
