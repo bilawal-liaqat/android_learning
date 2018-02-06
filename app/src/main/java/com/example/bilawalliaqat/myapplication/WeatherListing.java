@@ -2,6 +2,7 @@ package com.example.bilawalliaqat.myapplication;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -18,7 +19,9 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -50,15 +53,7 @@ public class WeatherListing extends AppCompatActivity implements AdapterView.OnI
 
         listView = findViewById(R.id.weatherList);
 
-        Button getButton = findViewById(R.id.getButton);
-
-                getButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        getWeatherAPIresponse();
-
-                    }
-                });
+        getWeatherAPIresponse();
 
 
     }
@@ -66,6 +61,11 @@ public class WeatherListing extends AppCompatActivity implements AdapterView.OnI
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+        Intent intent = new Intent(this, WeatherDetail.class);
+
+        intent.putExtra("weather", weatherList.get(position));
+         startActivity(intent);
+        //startActivityForResult(intent , 1);
     }
 
 
@@ -81,7 +81,7 @@ public class WeatherListing extends AppCompatActivity implements AdapterView.OnI
         // Tag used to cancel the request
         String tag_json_arry = "json_array_req";
 
-        String url = "http://samples.openweathermap.org/data/2.5/forecast?zip=94040&appid=b6907d289e10d714a6e88b30761fae22";
+        String url = "http://api.openweathermap.org/data/2.5/find?q=London&units=imperial&appid=94d1fb1d44e840644d347629c5de982a";
 
 
         final ProgressDialog pDialog = new ProgressDialog(this);
@@ -102,6 +102,8 @@ public class WeatherListing extends AppCompatActivity implements AdapterView.OnI
                               JSONObject  mainObj = obj.getJSONObject("main");
                               JSONArray weatherArray = obj.getJSONArray("weather");
                               JSONObject weatherObj = weatherArray.getJSONObject(0);
+
+
                                 Weather weather = new Weather(weatherObj.getString("main") ,
                                 weatherObj.getString("description") ,
                                         weatherObj.getString("icon"), mainObj.getDouble("temp") ,
@@ -182,6 +184,7 @@ class WeatherListAdopter extends BaseAdapter {
         ImageView weatherIcon = row.findViewById(R.id.weatherIcon);
         TextView weatherTitle = row.findViewById(R.id.main);
         TextView desciption = row.findViewById(R.id.desciption);
+        RelativeLayout mainLayout = row.findViewById(R.id.rl_main);
 
         Weather weather = weatherList.get(position);
 
@@ -192,6 +195,13 @@ class WeatherListAdopter extends BaseAdapter {
                 .load(url)
                 .fit()
                 .into(weatherIcon);
+
+//        mainLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(context, "click", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         return  row;
     }
