@@ -39,6 +39,8 @@ public class WeatherDetail extends AppCompatActivity {
 
         if(intent.getExtras() != null){
             Weather weather = (Weather) intent.getExtras().getParcelable("weather");
+            toolbar.setTitle((CharSequence) weather.main);
+            WeatherDetail.this.setTitle(weather.main);
 
             description.setText(weather.description);
             humidity.setText("Humidity: " + weather.humidity.intValue() + "%");

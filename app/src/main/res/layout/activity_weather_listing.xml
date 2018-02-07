@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.bilawalliaqat.myapplication.WeatherListing">
+    >
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -21,15 +21,18 @@
 
     </android.support.design.widget.AppBarLayout>
 
-
-
+    <fragment
+        android:id="@+id/place_autocomplete_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+        />
     <ListView
         android:id="@+id/weatherList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
     </ListView>
-
 
 
 </LinearLayout>

@@ -4,6 +4,10 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-feature android:name="android.hardware.location.gps"/>
+
 
     <application
         android:name=".AppController"
@@ -13,6 +17,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+            <meta-data
+                android:name="com.google.android.geo.API_KEY"
+                android:value="AIzaSyD4JoNCAPiq1jSAJxXzPv-1S9ZZluN-h4E"/>
+
+
         <activity android:name=".MainActivityJava" />
         <activity
             android:name=".Main_menu"

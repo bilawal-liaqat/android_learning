@@ -29,6 +29,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.*;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -36,13 +42,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import com.example.bilawalliaqat.myapplication.util.GPSTracker;
+public class WeatherListing extends AppCompatActivity  implements AdapterView.OnItemClickListener{
 
-public class WeatherListing extends AppCompatActivity implements AdapterView.OnItemClickListener {
-
+    int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
 
     private String TAG = WeatherListing.class.getSimpleName();
     ArrayList<Weather> weatherList = new ArrayList<Weather>();
     ListView listView;
+
+    // GPSTracker class
+    GPSTracker gps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +61,68 @@ public class WeatherListing extends AppCompatActivity implements AdapterView.OnI
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        listView = findViewById(R.id.weatherList);
-
-        getWeatherAPIresponse();
-
+       listView = findViewById(R.id.weatherList);
+//    Button searchButton = findViewById(R.id.serach_button);
+//        searchButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
+        googleLocationAutoComplete();
+        setCurrentLocation();
 
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //getWeatherAPIresponse();
+
+    }
+
+    private void setCurrentLocation(){
+        gps = new GPSTracker(this);
+
+        // check if GPS enabled
+        if(gps.canGetLocation()){
+
+            double latitude = gps.getLatitude();
+            double longitude = gps.getLongitude();
+            getWeatherAPIresponse(latitude , longitude);
+            // \n is for new line
+            Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+        }else{
+            // can't get location
+            // GPS or Network is not enabled
+            // Ask user to enable GPS/network in settings
+            gps.showSettingsAlert();
+        }
+
+    }
+
+    private void googleLocationAutoComplete(){
+        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
+                getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                // TODO: Get info about the selected place.
+                Log.i(TAG, "Place: " + place.getName());
+
+                getWeatherAPIresponse(place.getLatLng().latitude , place.getLatLng().longitude);
+            }
+
+            @Override
+            public void onError(Status status) {
+                // TODO: Handle the error.
+                Log.i(TAG, "An error occurred: " + status);
+            }
+        });
+    }
+
+
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -69,20 +135,21 @@ public class WeatherListing extends AppCompatActivity implements AdapterView.OnI
     }
 
 
-    private void addWeatherListener(ListView listView , ArrayList<Weather>  list){
+   private void addWeatherListener(ListView listView , ArrayList<Weather>  list){
           WeatherListAdopter listAdopter = new WeatherListAdopter(this , list);
         listView.setAdapter(listAdopter);
         listView.setOnItemClickListener(this);
     }
 
-    private void getWeatherAPIresponse(){
+    private void getWeatherAPIresponse(double lat , double lon){
 
 
         // Tag used to cancel the request
         String tag_json_arry = "json_array_req";
 
-        String url = "http://api.openweathermap.org/data/2.5/find?q=London&units=imperial&appid=94d1fb1d44e840644d347629c5de982a";
-
+        String url = "http://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=94d1fb1d44e840644d347629c5de982a";
+            Log.e(TAG , url);
+        weatherList.clear();
 
         final ProgressDialog pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
