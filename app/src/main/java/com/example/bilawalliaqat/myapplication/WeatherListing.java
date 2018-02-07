@@ -82,7 +82,7 @@ public class WeatherListing extends AppCompatActivity  implements AdapterView.On
     }
 
     private void setCurrentLocation(){
-        gps = new GPSTracker(this);
+        gps = new GPSTracker(WeatherListing.this);
 
         // check if GPS enabled
         if(gps.canGetLocation()){
