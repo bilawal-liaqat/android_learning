@@ -10,7 +10,7 @@
 
 
     <application
-        android:name=".AppController"
+        android:name=".App.AppController"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -22,29 +22,29 @@
                 android:value="AIzaSyD4JoNCAPiq1jSAJxXzPv-1S9ZZluN-h4E"/>
 
 
-        <activity android:name=".MainActivityJava" />
+        <activity android:name=".Activities.MainActivityJava" />
         <activity
-            android:name=".Main_menu"
+            android:name=".Menu.Main_menu"
             android:label="@string/title_activity_main_menu"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".ListActivity"
+            android:name=".Activities.ListActivity"
             android:label="@string/title_activity_list"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".FirstActivity"
+            android:name=".Activities.FirstActivity"
             android:label="@string/title_activity_first"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".SecondActivity"
+            android:name=".Activities.SecondActivity"
             android:label="@string/title_activity_second"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".FragmentActivity"
+            android:name=".Activities.FragmentActivity"
             android:label="@string/title_activity_fragment"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".WeatherListing"
+            android:name=".Activities.WeatherListing"
             android:label="@string/title_activity_weather_listing"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -54,7 +54,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".WeatherDetail"
+            android:name=".Activities.WeatherDetail"
             android:label="@string/title_activity_weather_detail"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

@@ -1,41 +1,27 @@
-package com.example.bilawalliaqat.myapplication;
+package com.example.bilawalliaqat.myapplication.Activities;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.example.bilawalliaqat.myapplication.App.AppController;
+import com.example.bilawalliaqat.myapplication.R;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.*;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,6 +29,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import com.example.bilawalliaqat.myapplication.util.GPSTracker;
+import com.example.bilawalliaqat.myapplication.Models.Weather;
+
+
 public class WeatherListing extends AppCompatActivity  implements AdapterView.OnItemClickListener{
 
     int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
@@ -206,154 +195,9 @@ public class WeatherListing extends AppCompatActivity  implements AdapterView.On
 
 
 
-class WeatherListAdopter extends BaseAdapter {
-
-
-    ArrayList<Weather> weatherList ;
-
-
-    Context context ;
-
-    WeatherListAdopter(Context c , ArrayList<Weather> list){
-
-        context = c ;
-        this.weatherList = list;
-
-    }
-
-
-
-    @Override
-    public int getCount() {
-        return weatherList.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return null;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        View row = convertView;
-
-        if (row== null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            row = inflater.inflate(R.layout.fragment_weather , parent , false);
-        }
-
-        ImageView weatherIcon = row.findViewById(R.id.weatherIcon);
-        TextView weatherTitle = row.findViewById(R.id.main);
-        TextView desciption = row.findViewById(R.id.desciption);
-        RelativeLayout mainLayout = row.findViewById(R.id.rl_main);
-
-        Weather weather = weatherList.get(position);
-
-        weatherTitle.setText((CharSequence) weather.main);
-        desciption.setText((CharSequence) weather.description);
-        String url = "http://openweathermap.org/img/w/" + weather.icon+".png";
-        Picasso.with(context)
-                .load(url)
-                .fit()
-                .into(weatherIcon);
-
-//        mainLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(context, "click", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
-        return  row;
-    }
-
-
-}
 
 
 
 
 
-class Weather implements Parcelable {
 
-    String  main , description , icon ;
-    Double temp , pressure , humidity;
-
-    public Weather(String main, String description, String icon, Double temp, Double pressure, Double humidity) {
-        this.main = main;
-        this.description = description;
-        this.icon = icon;
-        this.temp = temp;
-        this.pressure = pressure;
-        this.humidity = humidity;
-    }
-
-    protected Weather(Parcel in) {
-        main = in.readString();
-        description = in.readString();
-        icon = in.readString();
-        if (in.readByte() == 0) {
-            temp = null;
-        } else {
-            temp = in.readDouble();
-        }
-        if (in.readByte() == 0) {
-            pressure = null;
-        } else {
-            pressure = in.readDouble();
-        }
-        if (in.readByte() == 0) {
-            humidity = null;
-        } else {
-            humidity = in.readDouble();
-        }
-    }
-
-    public static final Creator<Weather> CREATOR = new Creator<Weather>() {
-        @Override
-        public Weather createFromParcel(Parcel in) {
-            return new Weather(in);
-        }
-
-        @Override
-        public Weather[] newArray(int size) {
-            return new Weather[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(main);
-        dest.writeString(description);
-        dest.writeString(icon);
-        if (temp == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeDouble(temp);
-        }
-        if (pressure == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeDouble(pressure);
-        }
-        if (humidity == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeDouble(humidity);
-        }
-    }
-}

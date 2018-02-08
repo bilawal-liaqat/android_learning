@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/containerBox"
     android:orientation="horizontal"
-    tools:context="com.example.bilawalliaqat.myapplication.ListActivity">
+    tools:context="com.example.bilawalliaqat.myapplication.Activities.ListActivity">
 
 
 
@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:name="com.example.bilawalliaqat.myapplication.FirstFragment"
+        android:name="com.example.bilawalliaqat.myapplication.Fragments.FirstFragment"
         />
 
 

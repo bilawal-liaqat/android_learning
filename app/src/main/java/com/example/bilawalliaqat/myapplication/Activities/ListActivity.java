@@ -1,23 +1,23 @@
-package com.example.bilawalliaqat.myapplication;
+package com.example.bilawalliaqat.myapplication.Activities;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.example.bilawalliaqat.myapplication.Fragments.FirstFragment;
+import com.example.bilawalliaqat.myapplication.Models.Person;
+import com.example.bilawalliaqat.myapplication.R;
+import com.example.bilawalliaqat.myapplication.Adapters.ListAdopter;
 
 import java.util.ArrayList;
 
@@ -112,58 +112,3 @@ public class ListActivity extends AppCompatActivity implements AdapterView.OnIte
 }
 
 
-class ListAdopter extends BaseAdapter {
-
-
-    ArrayList<Person> personList ;
-
-
-    Context context ;
-
-    ListAdopter(Context c , ArrayList<Person> list){
-
-       context = c ;
-       this.personList = list;
-
-    }
-
-
-
-    @Override
-    public int getCount() {
-        return personList.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return null;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-
-        View row = convertView;
-
-        if (row== null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-       row = inflater.inflate(R.layout.content_list , parent , false);
-        }
-
-        TextView firstName = row.findViewById(R.id.firstName);
-        TextView lastName = row.findViewById(R.id.lastName);
-
-        Person person = personList.get(position);
-
-         firstName.setText((CharSequence) person.firstName);
-        lastName.setText((CharSequence) person.lastName);
-
-        return  row;
-    }
-
-
-}

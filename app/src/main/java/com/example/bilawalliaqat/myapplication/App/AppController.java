@@ -1,4 +1,4 @@
-package com.example.bilawalliaqat.myapplication;
+package com.example.bilawalliaqat.myapplication.App;
 
 import android.app.Application;
 
@@ -8,7 +8,7 @@ import android.app.Application;
 
 
 import com.example.bilawalliaqat.myapplication.util.LruBitmapCache;
-import android.app.Application;
+
 import android.text.TextUtils;
 
 import com.android.volley.Request;

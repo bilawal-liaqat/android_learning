@@ -1,4 +1,4 @@
-package com.example.bilawalliaqat.myapplication;
+package com.example.bilawalliaqat.myapplication.Models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -7,12 +7,14 @@ import android.os.Parcelable;
  * Created by bilawalliaqat on 24/01/2018.
  */
 
-class Person  implements Parcelable {
+public class Person  implements Parcelable {
 
-    String firstName, lastName , email ;
+    public String firstName;
+    public String lastName;
+    String email ;
 
 
-    Person(String firstName, String lastName ){
+    public Person(String firstName, String lastName){
         this.firstName = firstName;
         this.lastName = lastName;
     }

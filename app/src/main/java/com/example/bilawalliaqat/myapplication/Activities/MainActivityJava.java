@@ -1,4 +1,4 @@
-package com.example.bilawalliaqat.myapplication;
+package com.example.bilawalliaqat.myapplication.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,8 @@ import android.webkit.WebViewClient;
 import android.widget.SeekBar;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import com.example.bilawalliaqat.myapplication.R;
 
 /**
  * Created by bilawalliaqat on 06/12/2017.
