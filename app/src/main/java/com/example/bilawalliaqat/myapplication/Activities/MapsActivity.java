@@ -2,6 +2,7 @@ package com.example.bilawalliaqat.myapplication.Activities;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
@@ -10,6 +11,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.bilawalliaqat.myapplication.R;
@@ -21,6 +23,7 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.SettingsClient;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -28,19 +31,26 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
-
     private static final String TAG = MapsActivity.class.getSimpleName();
-
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
+    private static final long INTERVAL = 1000 * 60 * 1; //1 minute
+    private static final long FASTEST_INTERVAL = 1000 * 60 * 1; // 1 minute
+    private static final float SMALLEST_DISPLACEMENT = 0.25F; //quarter of a meter
+
+
 
     /**
      * Provides the entry point to the Fused Location Provider API.
@@ -48,15 +58,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private FusedLocationProviderClient mFusedLocationClient;
     protected Location mLastLocation;
     private LocationRequest mLocationRequest;
+    private List<LatLng> points;
+    Polyline line; //added
+    private GoogleMap mMap;
 
-    private long UPDATE_INTERVAL = 10 * 1000;  /* 10 secs */
-    private long FASTEST_INTERVAL = 2000; /* 2 sec */
+
+    Button startButton , stopButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+      points =  new ArrayList<LatLng>();
+
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -89,6 +106,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         uiSettings.setScrollGesturesEnabled(true);
         uiSettings.setTiltGesturesEnabled(true);
         uiSettings.setZoomGesturesEnabled(true);
+        uiSettings.isMyLocationButtonEnabled();
 
         //  setCurrentLocation();
 
@@ -99,9 +117,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Create the location request to start receiving updates
         mLocationRequest = new LocationRequest();
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        mLocationRequest.setInterval(UPDATE_INTERVAL);
+        mLocationRequest.setInterval(INTERVAL);
         mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
+       // mLocationRequest.setSmallestDisplacement(SMALLEST_DISPLACEMENT); //added
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+
 
         // Create LocationSettingsRequest object using location request
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
@@ -131,9 +152,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         mFusedLocationClient.requestLocationUpdates(mLocationRequest, new LocationCallback() {
                     @Override
+
+
                     public void onLocationResult(LocationResult locationResult) {
                         // do work here
                         onLocationChanged(locationResult.getLastLocation());
+
+                        double latitude = locationResult.getLastLocation().getLatitude();
+                        double longitude = locationResult.getLastLocation().getLongitude();
+                        LatLng latLng = new LatLng(latitude, longitude); //you already have this
+
+                        points.add(latLng); //added
+
+                        redrawLine(); //added
 
                     }
                 },
@@ -158,6 +189,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onLocationChanged(Location location) {
         // Assign the new location
         mLastLocation = location;
+
 
         Toast.makeText(getApplicationContext(), "Location changed!",
                 Toast.LENGTH_SHORT).show();
@@ -245,6 +277,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+
+    // Draw polyline on map
+    private void redrawLine(){
+
+        mMap.clear();  //clears all Markers and Polylines
+
+        PolylineOptions options = new PolylineOptions().width(15).color(Color.RED);
+        for (int i = 0; i < points.size(); i++) {
+            LatLng point = points.get(i);
+            options.add(point);
+
+            Log.i(TAG, "Option added");
+
+        }
+      //  addMarker(); //add Marker in current position
+        line = mMap.addPolyline(options); //add Polyline
+    }
 
 //    private void setCurrentLocation(){
 //        gps = new GPSTracker(MapsActivity.this);

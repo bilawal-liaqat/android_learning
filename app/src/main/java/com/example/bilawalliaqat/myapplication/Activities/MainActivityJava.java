@@ -27,10 +27,10 @@ public class MainActivityJava extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        webview = (WebView) findViewById(R.id.webView);
-        webview.loadUrl(local_url);
-        webview.getSettings().setJavaScriptEnabled(true);
-        webview.setWebViewClient(new WebViewClient());
+      //  webview = (WebView) findViewById(R.id.webView);
+      //  webview.loadUrl(local_url);
+     //   webview.getSettings().setJavaScriptEnabled(true);
+     //   webview.setWebViewClient(new WebViewClient());
 
 
     }
